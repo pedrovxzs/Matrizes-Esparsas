@@ -6,7 +6,9 @@ Projeto de Estrutura de Dados - AP3
 
 * Relatório Latex, descrição da estrutura que foi implementada/motivação; 
 
-* Comentários sobre criação de funções auxiliares; Uma seção para separação de trabalho;
+* Comentários sobre criação de funções auxiliares;
+
+*   Uma seção para separação de trabalho;
 
 * Escrever as Dificuldades no desenvolvimento;
 
