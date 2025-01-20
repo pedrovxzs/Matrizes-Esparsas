@@ -69,7 +69,6 @@ double MatrizEsparsas::get(int linha, int coluna)
         Node *colunaAtual = linhaAtual->direita;
         while (linhaAtual->linha > 0)
         {
-            std::cout << linhaAtual->linha;
             while (colunaAtual->coluna > 0)
             {
                 if (colunaAtual->coluna == coluna && colunaAtual->linha == linha)
@@ -81,9 +80,9 @@ double MatrizEsparsas::get(int linha, int coluna)
             linhaAtual = linhaAtual->abaixo;
             colunaAtual = linhaAtual->direita;
         }
+        return 0;
         delete linhaAtual;
         delete colunaAtual;
-        return 0;
     }
     else
         throw std::out_of_range("Fora do Intervalo");
@@ -93,12 +92,12 @@ void MatrizEsparsas::printSentinelas()
 {
     Node *linhaSentinela = head->abaixo;
     Node *colunaSentinela = head->direita;
-    while(linhaSentinela->linha > 0)
+    while (linhaSentinela->linha > 0)
     {
         std::cout << "Linha Sentinela Atual: " << linhaSentinela->linha << std::endl;
         linhaSentinela = linhaSentinela->abaixo;
     }
-    while(colunaSentinela->coluna > 0)
+    while (colunaSentinela->coluna > 0)
     {
         std::cout << "Coluna Sentinela Atual: " << colunaSentinela->coluna << std::endl;
         colunaSentinela = colunaSentinela->abaixo;
@@ -106,21 +105,40 @@ void MatrizEsparsas::printSentinelas()
     }
 }
 // Fazendo ...
-// void MatrizEsparsas::insert(int linha, int coluna, double valor)
-// {
-//     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
-//     {
-//         // Cria sentinelas auxiliares
-//         Node *linhaAtual = head->abaixo;
-//         Node *colunaAtual = head->direita;
-//         linhaAtual = linhaAtual->abaixo;
-//         std::cout << linhaAtual->linha << std::endl;
+void MatrizEsparsas::insert(int linha, int coluna, double valor)
+{
+    if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
+    {
 
-//         while(linhaAtual->linha > 0 && linhaAtual->linha != linha)
-//         {
-//             linhaAtual = linhaAtual->abaixo;
-//             std::cout << linhaAtual->linha;
-//         }
-//     }
-//     else throw std::out_of_range("Fora do Intervalo");
-// }
+        // Cria-se sentinelas auxiliares e nó auxiliar a ser inserido
+        Node *linhaAtual = head->abaixo;
+        Node *colunaAtual = head->direita;
+        Node *aux = new Node(nullptr, nullptr, linha, coluna, valor);
+        // Navega até a linha do nó a ser inserido
+        while (linhaAtual->linha > 0 && linhaAtual->linha != linha)
+            linhaAtual = linhaAtual->abaixo;
+
+        // Navega até o nó anterior do nó há ser inserido;
+        while (linhaAtual->direita->coluna > 0 && linhaAtual->direita->coluna < coluna)
+            linhaAtual = linhaAtual->direita;
+
+        // Navega até a coluna do nó a ser inserido
+        while (colunaAtual->coluna > 0 && colunaAtual->coluna != coluna)
+            colunaAtual = colunaAtual->direita;
+
+        // Nageva até o nó anterior do nó há ser inserido
+        while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
+            colunaAtual = colunaAtual->abaixo;
+
+        aux->direita = linhaAtual->direita;
+        aux->abaixo = colunaAtual->abaixo;
+        linhaAtual->direita = aux;
+        colunaAtual->abaixo = aux;
+
+        delete aux;
+        delete linhaAtual;
+        delete colunaAtual;
+    }
+    else
+        throw std::out_of_range("Fora do Intervalo");
+}
