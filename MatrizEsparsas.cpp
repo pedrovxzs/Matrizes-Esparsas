@@ -58,3 +58,28 @@ void MatrizEsparsas::print()
     }
 }
 
+double MatrizEsparsas::get(int coluna, int linha)
+{
+    if (coluna <= this->colunas && linha <= this->linhas)
+    {
+        Node *linhaAtual = head->abaixo;
+        Node *colunaAtual = linhaAtual->direita;
+        while (linhaAtual->linha > 0)
+        {
+            while (colunaAtual->coluna > 0)
+            {
+                if (colunaAtual->coluna == coluna && colunaAtual->linha == linha)
+                {
+                    return colunaAtual->valor;
+                }
+                colunaAtual = colunaAtual->direita;
+            }
+            linhaAtual = linhaAtual->abaixo;
+            colunaAtual = linhaAtual->direita;
+        }
+        delete linhaAtual;
+        delete colunaAtual;
+        return 0;
+    }
+    else throw std::out_of_range("Fora do Intervalo");
+}

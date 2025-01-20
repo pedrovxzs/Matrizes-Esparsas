@@ -11,7 +11,8 @@ private:
 
 public:
     MatrizEsparsas(int linhas, int colunas);
-
+    //void insert(int linha, int coluna, double valor);
+    double get(int linha, int coluna);
     void print();
 };
 
