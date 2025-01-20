@@ -15,7 +15,8 @@ MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
         Node *auxLinha = head;
         for (int i = 1; i <= linhas; i++)
         {
-            Node *novo = new Node(head, auxLinha, i, 0, 0);
+            Node *novo = new Node(nullptr, auxLinha, i, 0, 0);
+            novo->direita = novo;
             auxLinha->abaixo = novo;
             auxLinha = novo;
         }
@@ -24,7 +25,8 @@ MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
         Node *auxColuna = head;
         for (int j = 1; j <= colunas; j++)
         {
-            Node *novo = new Node(auxColuna, head, 0, j, 0);
+            Node *novo = new Node(auxColuna, nullptr, 0, j, 0);
+            novo->abaixo = novo;
             auxColuna->direita = novo;
             auxColuna = novo;
         }
