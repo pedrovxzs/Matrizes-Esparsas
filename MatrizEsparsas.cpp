@@ -46,14 +46,14 @@ void MatrizEsparsas::print()
         Node *colunaAtual = linhaAtual->direita;
         for (int j = 1; j <= colunas; j++)
         {
-            if (colunaAtual->valor != 0)
+            if (colunaAtual->coluna == j)
             {
-                std::cout << colunaAtual->valor << " ";
+                std::cout << colunaAtual->valor << "  ";
                 colunaAtual = colunaAtual->direita;
             }
             else
             {
-                std::cout << "0 ";
+                std::cout << "0  ";
             }
         }
         std::cout << std::endl;
