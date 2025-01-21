@@ -13,5 +13,4 @@ int main()
     cout << matriz.get(2,2) << endl;
     cout << matriz.get(1,1) << endl;
     matriz.print();
-    return 0;
 }
