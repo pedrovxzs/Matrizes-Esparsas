@@ -12,10 +12,12 @@ private:
 
 public:
     MatrizEsparsas(int linhas, int colunas);
-    void insert(int linha, int coluna, double valor);
-    double get(int linha, int coluna);
+    ~MatrizEsparsas();
+    void clear();
     void print();
+    double get(int linha, int coluna);
     void printSentinelas();
+    void insert(int linha, int coluna, double valor);
 };
 
 #endif // MATRIZES_ESPARSAS_H

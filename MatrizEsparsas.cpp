@@ -38,6 +38,56 @@ MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
     }
 }
 
+MatrizEsparsas::~MatrizEsparsas()
+{
+    // Apagar os nós da matriz
+    clear();
+
+    // Apagar os sentinelas linhas
+    Node *linhaAtual = head->abaixo;
+    while (linhaAtual != head)
+    {
+        Node *temp = linhaAtual;
+        linhaAtual = linhaAtual->abaixo;
+        delete temp;
+    }
+
+    // Apagar os sentinelas colunas
+    Node *colunaAtual = head->direita;
+    while (colunaAtual != head)
+    {
+        Node *temp = colunaAtual;
+        colunaAtual = colunaAtual->direita;
+        delete temp;
+    }
+
+    // Apagar o nó head
+    delete head;
+
+    std::cout << "Matriz Apagada" << std::endl;
+}
+
+void MatrizEsparsas::clear()
+{
+    Node *linhaAtual = head->abaixo;
+    while (linhaAtual != head)
+    {
+        Node *colunaAtual = linhaAtual->direita;
+        while (colunaAtual != linhaAtual)
+        {
+            Node *temp = colunaAtual;
+            colunaAtual = colunaAtual->direita;
+            delete temp;
+        }
+
+        Node *temp = linhaAtual;
+        linhaAtual = linhaAtual->abaixo;
+        delete temp;
+    }
+    head->abaixo = head;
+    head->direita = head;
+}
+
 void MatrizEsparsas::print()
 {
     Node *linhaAtual = head->abaixo;
