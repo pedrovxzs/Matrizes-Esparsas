@@ -142,13 +142,12 @@ void MatrizEsparsas::printSentinelas()
     Node *colunaSentinela = head->direita;
     while (linhaSentinela->linha > 0)
     {
-        std::cout << "Linha Sentinela Atual: " << linhaSentinela->linha << std::endl;
+        std::cout << "Linha Sentinela Atual: " << linhaSentinela->linha << std::endl;        
         linhaSentinela = linhaSentinela->abaixo;
     }
     while (colunaSentinela->coluna > 0)
     {
-        std::cout << "Coluna Sentinela Atual: " << colunaSentinela->coluna << std::endl;
-        colunaSentinela = colunaSentinela->abaixo;
+        std::cout << "Coluna Sentinela Atual: " << colunaSentinela->coluna << std::endl;        
         colunaSentinela = colunaSentinela->direita;
     }
 }
@@ -160,8 +159,7 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
 
         // Cria-se sentinelas auxiliares e nó auxiliar a ser inserido
         Node *linhaAtual = head->abaixo;
-        Node *colunaAtual = head->direita;
-        Node *aux = new Node(nullptr, nullptr, linha, coluna, valor);
+
         // Navega até a linha do nó a ser inserido
         while (linhaAtual->linha > 0 && linhaAtual->linha != linha)
             linhaAtual = linhaAtual->abaixo;
@@ -170,18 +168,28 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
         while (linhaAtual->direita->coluna > 0 && linhaAtual->direita->coluna < coluna)
             linhaAtual = linhaAtual->direita;
 
-        // Navega até a coluna do nó a ser inserido
-        while (colunaAtual->coluna > 0 && colunaAtual->coluna != coluna)
-            colunaAtual = colunaAtual->direita;
+        if (linhaAtual->direita->valor != 0 && linhaAtual->direita->coluna == coluna)
+        {
+            linhaAtual->direita->valor = valor;
+        }
+        else
+        {
+            Node *colunaAtual = head->direita;
+            Node *aux = new Node(nullptr, nullptr, linha, coluna, valor);
 
-        // Nageva até o nó anterior do nó há ser inserido
-        while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
-            colunaAtual = colunaAtual->abaixo;
+            // Navega até a coluna do nó a ser inserido
+            while (colunaAtual->coluna > 0 && colunaAtual->coluna != coluna)
+                colunaAtual = colunaAtual->direita;
 
-        aux->direita = linhaAtual->direita;
-        aux->abaixo = colunaAtual->abaixo;
-        linhaAtual->direita = aux;
-        colunaAtual->abaixo = aux;
+            // Nageva até o nó anterior do nó há ser inserido
+            while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
+                colunaAtual = colunaAtual->abaixo;
+            
+            aux->direita = linhaAtual->direita;
+            aux->abaixo = colunaAtual->abaixo;
+            linhaAtual->direita = aux;
+            colunaAtual->abaixo = aux;
+        }
     }
     else
         throw std::out_of_range("Fora do Intervalo");
