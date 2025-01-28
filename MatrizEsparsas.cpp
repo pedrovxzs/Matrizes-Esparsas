@@ -1,5 +1,6 @@
 #include "MatrizEsparsas.h"
 #include <iostream>
+#include <stdexcept>
 
 MatrizEsparsas::MatrizEsparsas()
 {
@@ -45,26 +46,25 @@ void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
     }
 }
 
-
 void MatrizEsparsas::clear()
 {
     Node *linhaAtual = head->abaixo;
-    while (linhaAtual != head)
+    Node *colunaAtual = linhaAtual->direita;
+    while (linhaAtual->linha > 0)
     {
-        Node *colunaAtual = linhaAtual->direita;
-        while (colunaAtual != linhaAtual)
+        while (colunaAtual->coluna > 0)
         {
             Node *temp = colunaAtual;
             colunaAtual = colunaAtual->direita;
             delete temp;
         }
-
-        Node *temp = linhaAtual;
+        // Node *temp = linhaAtual;
         linhaAtual = linhaAtual->abaixo;
-        delete temp;
+        // delete temp;
     }
-    head->abaixo = head;
-    head->direita = head;
+
+    // head->abaixo = head;
+    // head->direita = head;
 }
 
 void MatrizEsparsas::print()
@@ -121,16 +121,16 @@ void MatrizEsparsas::printSentinelas()
     Node *colunaSentinela = head->direita;
     while (linhaSentinela->linha > 0)
     {
-        std::cout << "Linha Sentinela Atual: " << linhaSentinela->linha << std::endl;        
+        std::cout << "Linha Sentinela Atual: " << linhaSentinela->linha << std::endl;
         linhaSentinela = linhaSentinela->abaixo;
     }
     while (colunaSentinela->coluna > 0)
     {
-        std::cout << "Coluna Sentinela Atual: " << colunaSentinela->coluna << std::endl;        
+        std::cout << "Coluna Sentinela Atual: " << colunaSentinela->coluna << std::endl;
         colunaSentinela = colunaSentinela->direita;
     }
 }
-// Fazendo ...
+
 void MatrizEsparsas::insert(int linha, int coluna, double valor)
 {
     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
@@ -163,7 +163,7 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
             // Nageva até o nó anterior do nó há ser inserido
             while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
                 colunaAtual = colunaAtual->abaixo;
-            
+
             aux->direita = linhaAtual->direita;
             aux->abaixo = colunaAtual->abaixo;
             linhaAtual->direita = aux;
@@ -184,15 +184,37 @@ int MatrizEsparsas::getColunas()
     return colunas;
 }
 
+MatrizEsparsas MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
+{
+    this->criarSentinelas(matriz.linhas, matriz.colunas);
 
+    Node *linhaAtual = matriz.head->abaixo;
+    Node *colunaAtual = linhaAtual->direita;
+    std::cout << "Iniciou" << std::endl;
+
+    while (linhaAtual->linha > 0)
+    {
+        while (colunaAtual->coluna > 0)
+        {
+            if (colunaAtual->valor)
+            {
+                this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
+            }
+            colunaAtual = colunaAtual->direita;
+        }
+        linhaAtual = linhaAtual->abaixo;
+        colunaAtual = linhaAtual->direita;
+    }
+
+    return *this;
+}
 
 MatrizEsparsas::~MatrizEsparsas()
 {
-    // Apagar os nós da matriz
+    // Apagar os nós e sentinelas da matriz
     clear();
 
-    // Apagar os sentinelas linhas
-    Node *linhaAtual = head->abaixo;
+     Node *linhaAtual = head->abaixo;
     while (linhaAtual != head)
     {
         Node *temp = linhaAtual;
@@ -208,7 +230,6 @@ MatrizEsparsas::~MatrizEsparsas()
         colunaAtual = colunaAtual->direita;
         delete temp;
     }
-
     // Apagar o nó head
     delete head;
 

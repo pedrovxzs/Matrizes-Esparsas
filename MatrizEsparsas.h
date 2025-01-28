@@ -12,7 +12,6 @@ private:
 
 public:
     MatrizEsparsas(); // construtor vazio
-    ~MatrizEsparsas();
     void criarSentinelas(int linhas, int colunas);
     void clear();
     void print();
@@ -21,6 +20,8 @@ public:
     void insert(int linha, int coluna, double valor);
     int getLinhas();
     int getColunas();
+    MatrizEsparsas operator=(const MatrizEsparsas& matriz);
+    ~MatrizEsparsas();
 };
 
 #endif // MATRIZES_ESPARSAS_H

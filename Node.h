@@ -17,6 +17,7 @@ struct Node
         this->coluna = coluna;
         this->valor = valor;
     }
+
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "MatrizEsparsas.h"
 #include <fstream>
 #include <vector>
-
+#include <stdexcept>
 using namespace std;
 
 //Teste para ler a matriz atraves de um arquivo.
@@ -28,7 +28,6 @@ void lerMatriz(MatrizEsparsas& m)
 
 int main()
 {
-    MatrizEsparsas matriz;
-    lerMatriz(matriz);
-    matriz.print();
+    
+
 }
