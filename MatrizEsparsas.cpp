@@ -1,9 +1,17 @@
 #include "MatrizEsparsas.h"
 #include <iostream>
 
+MatrizEsparsas::MatrizEsparsas()
+{
+    // Primeiro nó
+    head = new Node(nullptr, nullptr, 0, 0, 0);
+    head->abaixo = head;
+    head->direita = head;
+    linhas = 0;
+    colunas = 0;
+}
 
-MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
-: MatrizEsparsas()
+void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
 {
     if (linhas > 0 && colunas > 0 && linhas <= 30000 && colunas <= 30000)
     {
@@ -37,43 +45,6 @@ MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
     }
 }
 
-MatrizEsparsas::MatrizEsparsas()
-{
-    // Primeiro nó
-    head = new Node(nullptr, nullptr, 0, 0, 0);
-    head->abaixo = head;
-    head->direita = head;
-    linhas = 0;
-    colunas = 0;
-}
-MatrizEsparsas::~MatrizEsparsas()
-{
-    // Apagar os nós da matriz
-    clear();
-
-    // Apagar os sentinelas linhas
-    Node *linhaAtual = head->abaixo;
-    while (linhaAtual != head)
-    {
-        Node *temp = linhaAtual;
-        linhaAtual = linhaAtual->abaixo;
-        delete temp;
-    }
-
-    // Apagar os sentinelas colunas
-    Node *colunaAtual = head->direita;
-    while (colunaAtual != head)
-    {
-        Node *temp = colunaAtual;
-        colunaAtual = colunaAtual->direita;
-        delete temp;
-    }
-
-    // Apagar o nó head
-    delete head;
-
-    std::cout << "Matriz Apagada" << std::endl;
-}
 
 void MatrizEsparsas::clear()
 {
@@ -211,4 +182,35 @@ int MatrizEsparsas::getLinhas()
 int MatrizEsparsas::getColunas()
 {
     return colunas;
+}
+
+
+
+MatrizEsparsas::~MatrizEsparsas()
+{
+    // Apagar os nós da matriz
+    clear();
+
+    // Apagar os sentinelas linhas
+    Node *linhaAtual = head->abaixo;
+    while (linhaAtual != head)
+    {
+        Node *temp = linhaAtual;
+        linhaAtual = linhaAtual->abaixo;
+        delete temp;
+    }
+
+    // Apagar os sentinelas colunas
+    Node *colunaAtual = head->direita;
+    while (colunaAtual != head)
+    {
+        Node *temp = colunaAtual;
+        colunaAtual = colunaAtual->direita;
+        delete temp;
+    }
+
+    // Apagar o nó head
+    delete head;
+
+    std::cout << "Matriz Apagada" << std::endl;
 }

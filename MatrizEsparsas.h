@@ -11,9 +11,9 @@ private:
     
 
 public:
-    MatrizEsparsas(int linhas, int colunas);
     MatrizEsparsas(); // construtor vazio
     ~MatrizEsparsas();
+    void criarSentinelas(int linhas, int colunas);
     void clear();
     void print();
     double get(int linha, int coluna);
