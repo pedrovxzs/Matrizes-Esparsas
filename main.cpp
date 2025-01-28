@@ -9,6 +9,11 @@ using namespace std;
 
 void soma(MatrizEsparsas& a, MatrizEsparsas& b) {
 	if(a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas()){
+        // a.print();
+        // cout << endl;
+        // b.print();
+        // cout << endl;
+
 	    MatrizEsparsas c;
         c.criarSentinelas(a.getLinhas(), a.getColunas());
 	    for(int i = 1; i <= c.getLinhas(); i++)
@@ -64,7 +69,11 @@ int main()
     vector<MatrizEsparsas> matrizes;
     MatrizEsparsas a, b;
     lerMatriz(a, "matriz");
+    a.print();
+    cout << endl;
     lerMatriz(b, "matriz");
+    b.print();
+    cout << endl;
     matrizes.push_back(a);
     matrizes.push_back(b);
     soma(a, b);

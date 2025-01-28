@@ -233,5 +233,5 @@ MatrizEsparsas::~MatrizEsparsas()
     // Apagar o nó head
     delete head;
 
-    std::cout << "Matriz Apagada" << std::endl;
+    //std::cout << "Matriz Apagada" << std::endl;
 }
