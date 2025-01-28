@@ -1,2 +1,4 @@
-*.exe
-*.o
+main.exe
+MatrizEsparsa.exe
+main.o
+MatrizEsparsa.o
