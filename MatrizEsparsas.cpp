@@ -1,18 +1,17 @@
 #include "MatrizEsparsas.h"
 #include <iostream>
 
+
 MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
+: MatrizEsparsas()
 {
     if (linhas > 0 && colunas > 0 && linhas <= 30000 && colunas <= 30000)
     {
         this->colunas = colunas;
         this->linhas = linhas;
 
-        // Primeiro nó
-        head = new Node(nullptr, nullptr, 0, 0, 0);
-        head->abaixo = head;
-        head->direita = head;
         Node *auxLinha = head;
+
         for (int i = 1; i <= linhas; i++)
         {
             Node *novo = new Node(nullptr, auxLinha, i, 0, 0);
@@ -38,6 +37,15 @@ MatrizEsparsas::MatrizEsparsas(int linhas, int colunas)
     }
 }
 
+MatrizEsparsas::MatrizEsparsas()
+{
+    // Primeiro nó
+    head = new Node(nullptr, nullptr, 0, 0, 0);
+    head->abaixo = head;
+    head->direita = head;
+    linhas = 0;
+    colunas = 0;
+}
 MatrizEsparsas::~MatrizEsparsas()
 {
     // Apagar os nós da matriz
@@ -193,4 +201,14 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
     }
     else
         throw std::out_of_range("Fora do Intervalo");
+}
+
+int MatrizEsparsas::getLinhas()
+{
+    return linhas;
+}
+
+int MatrizEsparsas::getColunas()
+{
+    return colunas;
 }

@@ -1,7 +1,28 @@
 #include <iostream>
 #include "MatrizEsparsas.h"
+#include <fstream>
+#include <vector>
 
 using namespace std;
+
+//Teste para ler a matriz atraves de um arquivo.
+void lerMatriz(MatrizEsparsas& m, string matriz)
+{
+    int linha, coluna;
+    double valor;
+
+    ifstream txtFile;
+    txtFile.open("matriz.txt");
+    if (txtFile.is_open())
+    {
+        while (txtFile >> linha >> coluna >> valor)
+        {
+            m.insert(linha, coluna, valor);
+        }
+    }
+    txtFile.close();
+}
+
 
 int main()
 {
@@ -25,5 +46,8 @@ int main()
     matriz.print();
     // Sentinela Coluna sendo duplicado quando é inserido um valor na mesma coluna
     matriz.printSentinelas();
+
+    cout<< matriz.getColunas()<< endl << matriz.getLinhas() << endl;
+
 
 }
