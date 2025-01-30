@@ -63,12 +63,21 @@ int main()
     vector<MatrizEsparsas> matrizes;
     MatrizEsparsas a, b;
     lerMatriz(a, "matriz");
-    lerMatriz(b, "matriz");
+    lerMatriz(b, "matrizb");
     cout << "Matriz C:" << endl;
-    soma(a, b);
+   // soma(a, b);
     cout << endl << "Matriz A: " << endl;
     a.print();
+    cout<< endl;
     cout << endl << "Matriz B:" << endl;
     b.print();
+
+    a=b;
+
+    cout<< endl << "Matriz A copiada:"<< endl;
+    a.print();
+
+    cout<< endl << "Sentinelas Matriz A:" << endl;
+    a.printSentinelas();
 
 }

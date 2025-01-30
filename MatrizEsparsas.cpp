@@ -67,6 +67,27 @@ void MatrizEsparsas::clear()
     // head->direita = head;
 }
 
+void MatrizEsparsas::clearAll()
+{
+    Node *linhaAtual = head->abaixo;
+    Node *colunaAtual = linhaAtual->direita;
+    while (linhaAtual->linha > 0)
+    {
+        while (colunaAtual->coluna > 0)
+        {
+            Node *temp = colunaAtual;
+            colunaAtual = colunaAtual->direita;
+            delete temp;
+        }
+        Node *temp = linhaAtual;
+        linhaAtual = linhaAtual->abaixo;
+        delete temp;
+    }
+
+    head->abaixo = head;
+    head->direita = head;
+}
+
 void MatrizEsparsas::print()
 {
     Node *linhaAtual = head->abaixo;
@@ -185,27 +206,27 @@ int MatrizEsparsas::getColunas()
 }
 
 // Em manutenção...
-// MatrizEsparsas MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
-// {
-//     this->criarSentinelas(matriz.linhas, matriz.colunas);
-//     Node *linhaAtual = matriz.head->abaixo;
-//     Node *colunaAtual = linhaAtual->direita;
-//     std::cout << "Iniciou" << std::endl;
-//     while (linhaAtual->linha > 0)
-//     {
-//         while (colunaAtual->coluna > 0)
-//         {
-//             if (colunaAtual->valor)
-//             {
-//                 this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
-//             }
-//             colunaAtual = colunaAtual->direita;
-//         }
-//         linhaAtual = linhaAtual->abaixo;
-//         colunaAtual = linhaAtual->direita;
-//     }
-//     return *this;
-// }
+MatrizEsparsas& MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
+{
+    this->clearAll();
+    this->criarSentinelas(matriz.linhas, matriz.colunas);
+    Node *linhaAtual = matriz.head->abaixo;
+    Node *colunaAtual = linhaAtual->direita;
+    while (linhaAtual->linha > 0)
+    {
+        while (colunaAtual->coluna > 0)
+        {
+            if (colunaAtual->valor)
+            {
+                this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
+            }
+            colunaAtual = colunaAtual->direita;
+        }
+        linhaAtual = linhaAtual->abaixo;
+        colunaAtual = linhaAtual->direita;
+    }
+    return *this;
+}
 
 MatrizEsparsas::~MatrizEsparsas()
 {
