@@ -184,30 +184,28 @@ int MatrizEsparsas::getColunas()
     return colunas;
 }
 
-MatrizEsparsas MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
-{
-    this->criarSentinelas(matriz.linhas, matriz.colunas);
-
-    Node *linhaAtual = matriz.head->abaixo;
-    Node *colunaAtual = linhaAtual->direita;
-    std::cout << "Iniciou" << std::endl;
-
-    while (linhaAtual->linha > 0)
-    {
-        while (colunaAtual->coluna > 0)
-        {
-            if (colunaAtual->valor)
-            {
-                this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
-            }
-            colunaAtual = colunaAtual->direita;
-        }
-        linhaAtual = linhaAtual->abaixo;
-        colunaAtual = linhaAtual->direita;
-    }
-
-    return *this;
-}
+// Em manutenção...
+// MatrizEsparsas MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
+// {
+//     this->criarSentinelas(matriz.linhas, matriz.colunas);
+//     Node *linhaAtual = matriz.head->abaixo;
+//     Node *colunaAtual = linhaAtual->direita;
+//     std::cout << "Iniciou" << std::endl;
+//     while (linhaAtual->linha > 0)
+//     {
+//         while (colunaAtual->coluna > 0)
+//         {
+//             if (colunaAtual->valor)
+//             {
+//                 this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
+//             }
+//             colunaAtual = colunaAtual->direita;
+//         }
+//         linhaAtual = linhaAtual->abaixo;
+//         colunaAtual = linhaAtual->direita;
+//     }
+//     return *this;
+// }
 
 MatrizEsparsas::~MatrizEsparsas()
 {

@@ -9,11 +9,6 @@ using namespace std;
 
 void soma(MatrizEsparsas& a, MatrizEsparsas& b) {
 	if(a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas()){
-        // a.print();
-        // cout << endl;
-        // b.print();
-        // cout << endl;
-
 	    MatrizEsparsas c;
         c.criarSentinelas(a.getLinhas(), a.getColunas());
 	    for(int i = 1; i <= c.getLinhas(); i++)
@@ -22,11 +17,10 @@ void soma(MatrizEsparsas& a, MatrizEsparsas& b) {
         c.print();
 	}
 	else {
-	    cout << "nao foi possivel somar" << endl;
+	    cout << "Nao foi possivel somar" << endl;
 	}
 }
 
-//Teste para ler a matriz atraves de um arquivo.
 void lerMatriz(MatrizEsparsas& m, string matriz)
 {
     int linha, coluna;
@@ -69,13 +63,12 @@ int main()
     vector<MatrizEsparsas> matrizes;
     MatrizEsparsas a, b;
     lerMatriz(a, "matriz");
-    a.print();
-    cout << endl;
     lerMatriz(b, "matriz");
-    b.print();
-    cout << endl;
-    matrizes.push_back(a);
-    matrizes.push_back(b);
+    cout << "Matriz C:" << endl;
     soma(a, b);
+    cout << endl << "Matriz A: " << endl;
+    a.print();
+    cout << endl << "Matriz B:" << endl;
+    b.print();
 
 }
