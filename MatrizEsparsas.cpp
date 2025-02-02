@@ -15,8 +15,6 @@ MatrizEsparsas::MatrizEsparsas()
 MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas& matriz)
 : MatrizEsparsas()
 {
-    this->linhas = matriz.linhas;
-    this->colunas = matriz.colunas;
     this->criarSentinelas(matriz.linhas, matriz.colunas);
     Node *linhaAtual = matriz.head->abaixo;
     Node *colunaAtual = linhaAtual->direita;
