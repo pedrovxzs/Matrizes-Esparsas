@@ -44,6 +44,9 @@
         "ranges": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
-    }
+        "typeinfo": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp"
+    },
+    "makefile.makefilePath": "C:\\Users\\pedro\\Desktop\\de tudo um pouco\\faculdade\\programação\\Estrutura de Dados - Atilio\\Matrizes Esparsas\\Matrizes-Esparsas\\Makefile"
 }

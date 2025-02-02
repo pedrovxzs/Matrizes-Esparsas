@@ -12,6 +12,7 @@ private:
 
 public:
     MatrizEsparsas(); // construtor vazio
+    MatrizEsparsas(const MatrizEsparsas& matriz); // construtor de cópia
     void criarSentinelas(int linhas, int colunas);
     void clear();
     void clearAll();

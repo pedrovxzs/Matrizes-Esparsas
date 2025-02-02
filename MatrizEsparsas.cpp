@@ -12,6 +12,29 @@ MatrizEsparsas::MatrizEsparsas()
     colunas = 0;
 }
 
+MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas& matriz)
+: MatrizEsparsas()
+{
+    this->linhas = matriz.linhas;
+    this->colunas = matriz.colunas;
+    this->criarSentinelas(matriz.linhas, matriz.colunas);
+    Node *linhaAtual = matriz.head->abaixo;
+    Node *colunaAtual = linhaAtual->direita;
+    while (linhaAtual->linha > 0)
+    {
+        while (colunaAtual->coluna > 0)
+        {   
+            if (colunaAtual->valor)
+            {
+                this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
+            }
+            colunaAtual = colunaAtual->direita;
+        }
+        linhaAtual = linhaAtual->abaixo;
+        colunaAtual = linhaAtual->direita;
+    }
+}
+
 void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
 {
     if (linhas > 0 && colunas > 0 && linhas <= 30000 && colunas <= 30000)
@@ -205,9 +228,12 @@ int MatrizEsparsas::getColunas()
     return colunas;
 }
 
-// Em manutenção...
 MatrizEsparsas& MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
 {
+    if (this == &matriz)
+    {
+        return *this;
+    }
     this->clearAll();
     this->criarSentinelas(matriz.linhas, matriz.colunas);
     Node *linhaAtual = matriz.head->abaixo;
@@ -227,6 +253,8 @@ MatrizEsparsas& MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
     }
     return *this;
 }
+
+
 
 MatrizEsparsas::~MatrizEsparsas()
 {
