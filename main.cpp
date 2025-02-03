@@ -85,16 +85,17 @@ int main()
     MatrizEsparsas a, b;
     lerMatriz(a, "matriz");
     lerMatriz(b, "matrizb");
-
+    matrizes.emplace_back(a);
+    matrizes.emplace_back(b);
     cout << endl << "Matriz A: " << endl;
-    a.print();
+    matrizes.at(0).print();
 
     cout << endl << "Matriz B:" << endl;
-    b.print();
+    matrizes.at(1).print();
 
     cout << endl << "Soma A e B:" << endl;
-    somar(a, b);
+    somar(matrizes.at(0), matrizes.at(1));
 
     cout << endl << "Multiplicacao de A e B:" << endl;
-    multiplicar(a,b);
+    multiplicar(matrizes.at(0),matrizes.at(1));
 }
