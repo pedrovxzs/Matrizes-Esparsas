@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void soma(MatrizEsparsas& a, MatrizEsparsas& b) {
+void somar(MatrizEsparsas& a, MatrizEsparsas& b) {
 	if(a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas()){
 	    MatrizEsparsas c;
         c.criarSentinelas(a.getLinhas(), a.getColunas());
@@ -19,6 +19,27 @@ void soma(MatrizEsparsas& a, MatrizEsparsas& b) {
 	else {
 	    cout << "Nao foi possivel somar" << endl;
 	}
+}
+
+void multiplicar(MatrizEsparsas& a, MatrizEsparsas& b) {
+	if(a.getColunas() == b.getLinhas()){
+	    MatrizEsparsas c;
+        c.criarSentinelas(a.getLinhas(), b.getColunas());
+	    double resultado_mult;
+	    for(int i = 1; i <= c.getLinhas(); i++){
+	        for(int v = 1; v <= c.getColunas(); v++){
+                resultado_mult = 0;
+	            for(int j = 1; j <= b.getLinhas(); j++){
+	                resultado_mult += a.get(i, j)*b.get(j, v);
+	            }
+	            c.insert(i, v, resultado_mult);
+	        }
+	    }
+	    c.print();
+    }
+    else {
+        cout << "nao foi possivel multiplicar" << endl;
+    }
 }
 
 void lerMatriz(MatrizEsparsas& m, string matriz)
@@ -72,10 +93,8 @@ int main()
     b.print();
 
     cout << endl << "Soma A e B:" << endl;
-    soma(a, b);
+    somar(a, b);
 
-    MatrizEsparsas d(b);
-
-    cout<< endl << "Matriz D:"<< endl;
-    d.print();
+    cout << endl << "Multiplicacao de A e B:" << endl;
+    multiplicar(a,b);
 }

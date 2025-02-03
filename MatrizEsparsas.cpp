@@ -252,8 +252,6 @@ MatrizEsparsas& MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
     return *this;
 }
 
-
-
 MatrizEsparsas::~MatrizEsparsas()
 {
     // Apagar os nós e sentinelas da matriz
