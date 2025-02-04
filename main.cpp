@@ -97,15 +97,21 @@ int main()
         //create i j
         else if(opcao == "create")
         {
+            try{
             int i, j;
             buffer >> i >> j;
             MatrizEsparsas m;
             m.criarSentinelas(i, j);
             matrizes.push_back(m);
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //createCopy i
         else if(opcao == "createCopy")
         {
+            try{
             int i;
             buffer >> i;
             try{
@@ -116,37 +122,61 @@ int main()
                 cout << e.what() << endl;
                 break;
             }
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //read "mtrx.txt"
         else if(opcao == "read")
         {
+            try{
             string nome;
             MatrizEsparsas m;
             buffer >> nome;
             lerMatriz(m, nome);
             matrizes.push_back(m);
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //update m i j value
         else if(opcao == "update")
         {
+            try{
             int d, i, j;
             double x;
             buffer >> d >> i >> j >> x;
             matrizes.at(d).insert(i, j, x);
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //get m i j
         else if(opcao == "get")
         {
+            try{
             int d, i, j;
             buffer >> d >> i >> j;
             cout << matrizes.at(d).get(i, j) << endl;
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //show m
         else if(opcao == "show")
         {
+            try{
             int d;
             buffer >> d;
             matrizes.at(d).print();
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //showidx
         else if(opcao == "showidx")
@@ -157,16 +187,26 @@ int main()
         //sum m n
         else if(opcao == "sum")
         {
+            try{
             int m, n;
             buffer >> m >> n;
             somar(matrizes.at(m), matrizes.at(n));
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //multiply m n
         else if(opcao == "multiply")
         {
+            try{
             int m, n;
             buffer >> m >> n;
             multiplicar(matrizes.at(m), matrizes.at(n));
+            }
+            catch(std::invalid_argument e){
+                cout << e.what() << endl;
+            }
         }
         //help
         else if(opcao == "help")
