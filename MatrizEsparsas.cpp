@@ -63,7 +63,7 @@ void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
     }
     else
     {
-        throw std::out_of_range("Fora do Intervalo");
+        throw std::out_of_range("Invalid number of columns or rows");
     }
 }
 
@@ -154,7 +154,7 @@ double MatrizEsparsas::get(int linha, int coluna)
         return 0;
     }
     else
-        throw std::out_of_range("Fora do Intervalo");
+        throw std::out_of_range("Invalid coordinates");
 }
 
 void MatrizEsparsas::printSentinelas()
@@ -213,7 +213,7 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
         }
     }
     else
-        throw std::out_of_range("Fora do Intervalo");
+        throw std::out_of_range("Invalid coordinates");
 }
 
 int MatrizEsparsas::getLinhas()

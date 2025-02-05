@@ -7,61 +7,107 @@
 
 using namespace std;
 
-void somar(MatrizEsparsas& a, MatrizEsparsas& b) {
-	if(a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas()){
-	    MatrizEsparsas c;
+void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> matrices)
+{
+    if (a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas())
+    {
+        MatrizEsparsas c;
         c.criarSentinelas(a.getLinhas(), a.getColunas());
-	    for(int i = 1; i <= c.getLinhas(); i++)
-	        for(int j = 1; j <= c.getColunas(); j++)
-	            c.insert(i, j, a.get(i, j) + b.get(i, j));
+        for (int i = 1; i <= c.getLinhas(); i++)
+            for (int j = 1; j <= c.getColunas(); j++)
+                c.insert(i, j, a.get(i, j) + b.get(i, j));
+
+        cout << "This is the sum of the matrices:" << endl;
         c.print();
-	}
-	else {
-	    cout << "Nao foi possivel somar" << endl;
-	}
+        char op;
+        while (op != 'N')
+        {
+            cout << "Do you want save this matrix? (S/N)" << endl;
+            cin >> op;
+            if (op == 'S')
+            {
+             matrices.push_back(c);
+             op = 'N';   
+            }
+            else
+            {
+                cout << "Choose a valid option" << endl;
+            }
+        }
+    }
+    else
+    {
+        cout << "It wasn't possible sum" << endl;
+    }
 }
 
-void multiplicar(MatrizEsparsas& a, MatrizEsparsas& b) {
-	if(a.getColunas() == b.getLinhas()){
-	    MatrizEsparsas c;
+void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> matrices)
+{
+    if (a.getColunas() == b.getLinhas())
+    {
+        MatrizEsparsas c;
         c.criarSentinelas(a.getLinhas(), b.getColunas());
-	    double resultado_mult;
-	    for(int i = 1; i <= c.getLinhas(); i++){
-	        for(int v = 1; v <= c.getColunas(); v++){
+        double resultado_mult;
+        for (int i = 1; i <= c.getLinhas(); i++)
+        {
+            for (int v = 1; v <= c.getColunas(); v++)
+            {
                 resultado_mult = 0;
-	            for(int j = 1; j <= b.getLinhas(); j++){
-	                resultado_mult += a.get(i, j)*b.get(j, v);
-	            }
-	            c.insert(i, v, resultado_mult);
-	        }
-	    }
-	    c.print();
+                for (int j = 1; j <= b.getLinhas(); j++)
+                {
+                    resultado_mult += a.get(i, j) * b.get(j, v);
+                }
+                c.insert(i, v, resultado_mult);
+            }
+        }
+        cout << "This is the multiplication of the matrices:" << endl;
+        c.print();
+        char op;
+        while (op != 'N')
+        {
+            cout << "Do you want save this matrix? (S/N)" << endl;
+            cin >> op;
+            if (op == 'S')
+            {
+             matrices.push_back(c);
+             op = 'N';   
+            }
+            else
+            {
+                cout << "Choose a valid option" << endl;
+            }
+        }
     }
-    else {
+    else
+    {
         cout << "nao foi possivel multiplicar" << endl;
     }
 }
 
-void lerMatriz(MatrizEsparsas& m, string matriz)
+void lerMatriz(MatrizEsparsas &m, string matriz)
 {
     int linha, coluna;
     double valor;
     ifstream txtFile;
-    txtFile.open(matriz+".txt");
+    txtFile.open(matriz + ".txt");
 
     if (txtFile.is_open())
     {
-    txtFile >> linha >> coluna;
-    m.criarSentinelas(linha, coluna);
+        txtFile >> linha >> coluna;
+        m.criarSentinelas(linha, coluna);
         while (txtFile >> linha >> coluna >> valor)
         {
             m.insert(linha, coluna, valor);
         }
     }
+    else
+    {
+        throw runtime_error("Invalid file");
+    }
     txtFile.close();
 }
 
-void lerMatriz(MatrizEsparsas& m, int linha, int coluna)
+void lerMatriz(MatrizEsparsas &m, int linha, int coluna)
 {
     double valor;
     m.criarSentinelas(linha, coluna);
@@ -70,7 +116,7 @@ void lerMatriz(MatrizEsparsas& m, int linha, int coluna)
     cin.clear();
     getline(cin, data);
     stringstream buffer(data);
-    while(buffer >> linha >> coluna >> valor)
+    while (buffer >> linha >> coluna >> valor)
     {
         m.insert(linha, coluna, valor);
     }
@@ -81,149 +127,213 @@ int main()
     vector<MatrizEsparsas> matrizes;
     cout << "Welcome to matrix system!" << endl;
     cout << "type 'help' to see the list of commands" << endl;
-    while(true){
+    while (true)
+    {
         string comando, opcao;
         getline(cin, comando);
-        stringstream buffer {comando};
+        stringstream buffer{comando};
         buffer >> opcao;
         cout << "$" << buffer.str() << endl;
 
-        //exit
-        if(opcao == "exit")
+        // exit
+        if (opcao == "exit")
         {
             matrizes.clear();
             break;
         }
-        //create i j
-        else if(opcao == "create")
+        // create i j
+        else if (opcao == "create")
         {
-            try{
             int i, j;
             buffer >> i >> j;
             MatrizEsparsas m;
-            m.criarSentinelas(i, j);
+            try
+            {
+                m.criarSentinelas(i, j);
+            }
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
+            }
             matrizes.push_back(m);
-            }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
-            }
         }
-        //createCopy i
-        else if(opcao == "createCopy")
+        // createCopy i
+        else if (opcao == "createCopy")
         {
-            try{
             int i;
             buffer >> i;
-            try{
-            matrizes.push_back(matrizes.at(i));
-            } 
-            catch(out_of_range e)
+            try
             {
-                cout << e.what() << endl;
-                break;
+                matrizes.push_back(matrizes.at(i));
             }
-            }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
+            catch (out_of_range e)
+            {
+                cerr << e.what() << endl;
             }
         }
-        //read "mtrx.txt"
-        else if(opcao == "read")
+        // read "mtrx.txt"
+        else if (opcao == "read")
         {
-            try{
             string nome;
             MatrizEsparsas m;
             buffer >> nome;
-            lerMatriz(m, nome);
+            try
+            {
+                lerMatriz(m, nome);
+            }
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
+            }
             matrizes.push_back(m);
-            }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
-            }
         }
-        //update m i j value
-        else if(opcao == "update")
+        // update m i j value
+        else if (opcao == "update")
         {
-            try{
+
             int d, i, j;
             double x;
             buffer >> d >> i >> j >> x;
-            matrizes.at(d).insert(i, j, x);
+            try
+            {
+                matrizes.at(d).insert(i, j, x);
             }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
             }
         }
-        //get m i j
-        else if(opcao == "get")
+        // get m i j
+        else if (opcao == "get")
         {
-            try{
+
             int d, i, j;
             buffer >> d >> i >> j;
-            cout << matrizes.at(d).get(i, j) << endl;
+            try
+            {
+                cout << matrizes.at(d).get(i, j) << endl;
             }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
             }
         }
-        //show m
-        else if(opcao == "show")
+        // show m
+        else if (opcao == "show")
         {
-            try{
+
             int d;
             buffer >> d;
-            matrizes.at(d).print();
+            try
+            {
+                matrizes.at(d).print();
             }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
             }
         }
-        //showidx
-        else if(opcao == "showidx")
+        // showidx
+        else if (opcao == "showidx")
         {
-            for(int i = 0; i < matrizes.size(); i++)
-                cout << i << endl;
+            cout << "Matrix indexes:";
+            for (int i = 0; i < matrizes.size(); i++)
+            {
+                if (i > 0)
+                    cout << ",";
+                cout << " " << i;
+            }
+            cout << endl;
         }
-        //sum m n
-        else if(opcao == "sum")
+        // sum m n
+        else if (opcao == "sum")
         {
-            try{
+
             int m, n;
             buffer >> m >> n;
-            somar(matrizes.at(m), matrizes.at(n));
+            try
+            {
+                somar(matrizes.at(m), matrizes.at(n), matrizes);
             }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
             }
         }
-        //multiply m n
-        else if(opcao == "multiply")
+        // multiply m n
+        else if (opcao == "multiply")
         {
-            try{
-            int m, n;
-            buffer >> m >> n;
-            multiplicar(matrizes.at(m), matrizes.at(n));
+                int m, n;
+                buffer >> m >> n;
+            try
+            {
+                multiplicar(matrizes.at(m), matrizes.at(n), matrizes);
             }
-            catch(std::invalid_argument e){
-                cout << e.what() << endl;
+            catch (std::invalid_argument e)
+            {
+                cerr << e.what() << endl;
             }
         }
-        //help
-        else if(opcao == "help")
+        // clear m
+        else if (opcao == "clear")
+        {
+            int m;
+            buffer >> m;
+            try
+            {
+                matrizes.at(m).clear();
+            }
+            catch (invalid_argument e)
+            {
+                cerr << e.what() << endl;
+            }
+        }
+        // erase m
+        else if (opcao == "erase")
+        {
+            int m;
+            buffer >> m;
+            try
+            {
+                matrizes.erase(matrizes.begin()+m);
+            }
+            catch(invalid_argument e)
+            {
+                cerr << e.what() << '\n';
+            }
+            
+        }
+        // clearAll
+        else if (opcao == "clearAll")
+        {
+            try
+            {
+                matrizes.clear();
+            }
+            catch (invalid_argument e)
+            {
+                cerr << e.what() << endl;
+            }
+        }
+        // help
+        else if (opcao == "help")
         {
             cout << "HELP --------------------------------------------------------------------------------------" << endl;
             cout << "exit............................close the program" << endl;
             cout << "create i j......................create a new matrix with m rows and n columns" << endl;
             cout << "createCopy i....................create copy of a matrix i of the vector of matrices" << endl;
-            cout << "read 'm.txt'....................read a sparse matrix from the file with name 'm.txt'" << endl;
+            cout << "read 'm'........................read a sparse matrix from the file with name 'm.txt'" << endl;
             cout << "show i..........................print the matrix i in the terminal" << endl;
             cout << "showidx.........................show all the indexes of the matrices" << endl;
             cout << "get m i j.......................show the value of cell(c,j) in the matrix m" << endl;
             cout << "sum m n.........................sum the matrices m and n of the vector of matrices" << endl;
             cout << "multiply m n....................multiply the matrices m and n of the vector of matrices" << endl;
             cout << "update m i j value..............update the value of the cell(i,j) in the matrix m" << endl;
+            cout << "clear m.........................clear the matrix m" << endl;
+            cout << "erase m.........................erase the matrix m" << endl;
+            cout << "eraseAll........................erase all the matrices currently in the program" << endl;
             cout << "-------------------------------------------------------------------------------------------" << endl;
-        }   
+        }
         else
         {
             cout << "wrong arguments" << endl;
