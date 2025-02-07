@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> matrices)
+void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrices)
 {
     if (a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas())
     {
@@ -19,21 +19,23 @@ void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> matrices
 
         cout << "This is the sum of the matrices:" << endl;
         c.print();
-        char op;
-        while (op != 'N')
+        string op = "x";
+        while (op != "N")
         {
             cout << "Do you want save this matrix? (S/N)" << endl;
             cin >> op;
-            if (op == 'S')
+            if (op == "S")
             {
-             matrices.push_back(c);
-             op = 'N';   
+                cout << "Matrix saved successfully, his index is: " << matrices.size() << endl;
+                matrices.push_back(c);
+                op = "N";
             }
             else
             {
                 cout << "Choose a valid option" << endl;
             }
         }
+        cin.clear();
     }
     else
     {
@@ -62,15 +64,16 @@ void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> ma
         }
         cout << "This is the multiplication of the matrices:" << endl;
         c.print();
-        char op;
-        while (op != 'N')
+        string op;
+        while (op != "N")
         {
             cout << "Do you want save this matrix? (S/N)" << endl;
             cin >> op;
-            if (op == 'S')
+            if (op == "S")
             {
-             matrices.push_back(c);
-             op = 'N';   
+                cout << "Matrix saved successfully, his index is: " << matrices.size() << endl;
+                matrices.push_back(c);
+                op = "N";
             }
             else
             {
@@ -87,7 +90,7 @@ void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> ma
 void lerMatriz(MatrizEsparsas &m, string matriz)
 {
     int linha, coluna;
-    double valor;
+    string temp;
     ifstream txtFile;
     txtFile.open(matriz + ".txt");
 
@@ -95,9 +98,9 @@ void lerMatriz(MatrizEsparsas &m, string matriz)
     {
         txtFile >> linha >> coluna;
         m.criarSentinelas(linha, coluna);
-        while (txtFile >> linha >> coluna >> valor)
+        while (txtFile >> linha >> coluna >> temp)
         {
-            m.insert(linha, coluna, valor);
+            m.insert(linha, coluna, stod(temp));
         }
     }
     else
@@ -109,16 +112,15 @@ void lerMatriz(MatrizEsparsas &m, string matriz)
 
 void lerMatriz(MatrizEsparsas &m, int linha, int coluna)
 {
-    double valor;
     m.criarSentinelas(linha, coluna);
     string data;
     cout << "Insert rows, columns and values, of all ";
     cin.clear();
     getline(cin, data);
     stringstream buffer(data);
-    while (buffer >> linha >> coluna >> valor)
+    while (buffer >> linha >> coluna >> data)
     {
-        m.insert(linha, coluna, valor);
+        m.insert(linha, coluna, stod(data));
     }
 }
 
@@ -130,6 +132,7 @@ int main()
     while (true)
     {
         string comando, opcao;
+        cin.clear();
         getline(cin, comando);
         stringstream buffer{comando};
         buffer >> opcao;
@@ -150,12 +153,13 @@ int main()
             try
             {
                 m.criarSentinelas(i, j);
+                matrizes.push_back(m);
+                cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
             }
             catch (std::invalid_argument e)
             {
                 cerr << e.what() << endl;
             }
-            matrizes.push_back(m);
         }
         // createCopy i
         else if (opcao == "createCopy")
@@ -165,6 +169,7 @@ int main()
             try
             {
                 matrizes.push_back(matrizes.at(i));
+                cout << "The matrix was copied successfully, his index is: " << matrizes.size() - 1 << endl;
             }
             catch (out_of_range e)
             {
@@ -180,12 +185,30 @@ int main()
             try
             {
                 lerMatriz(m, nome);
+                matrizes.push_back(m);
+                cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
             }
             catch (std::invalid_argument e)
             {
                 cerr << e.what() << endl;
             }
-            matrizes.push_back(m);
+        }
+        // readC i j
+        else if (opcao == "readC")
+        {
+            int i, j;
+            MatrizEsparsas m;
+            buffer >> i >> j;
+            try
+            {
+                lerMatriz(m, i, j);
+                matrizes.push_back(m);
+                cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+            }
+            catch (const std::invalid_argument e)
+            {
+                cerr << e.what() << '\n';
+            }
         }
         // update m i j value
         else if (opcao == "update")
@@ -197,6 +220,7 @@ int main()
             try
             {
                 matrizes.at(d).insert(i, j, x);
+                cout << "The value was updated successfully" << endl;
             }
             catch (std::invalid_argument e)
             {
@@ -211,7 +235,7 @@ int main()
             buffer >> d >> i >> j;
             try
             {
-                cout << matrizes.at(d).get(i, j) << endl;
+                cout << "The value is: " << matrizes.at(d).get(i, j) << endl;
             }
             catch (std::invalid_argument e)
             {
@@ -226,6 +250,7 @@ int main()
             buffer >> d;
             try
             {
+                cout << "Showing the matrix[" << d << "]" << endl;
                 matrizes.at(d).print();
             }
             catch (std::invalid_argument e)
@@ -236,7 +261,8 @@ int main()
         // showidx
         else if (opcao == "showidx")
         {
-            cout << "Matrix indexes:";
+            if (matrizes.size() > 0)
+                cout << "Matrices indexes:";
             for (int i = 0; i < matrizes.size(); i++)
             {
                 if (i > 0)
@@ -263,8 +289,8 @@ int main()
         // multiply m n
         else if (opcao == "multiply")
         {
-                int m, n;
-                buffer >> m >> n;
+            int m, n;
+            buffer >> m >> n;
             try
             {
                 multiplicar(matrizes.at(m), matrizes.at(n), matrizes);
@@ -282,6 +308,7 @@ int main()
             try
             {
                 matrizes.at(m).clear();
+                cout << "The matrix [" << m << "] has been cleared" << endl;    
             }
             catch (invalid_argument e)
             {
@@ -295,20 +322,21 @@ int main()
             buffer >> m;
             try
             {
-                matrizes.erase(matrizes.begin()+m);
+                matrizes.erase(matrizes.begin() + m);
+                cout << "he matrix [" << m << "] has been erased" << endl;
             }
-            catch(invalid_argument e)
+            catch (invalid_argument e)
             {
                 cerr << e.what() << '\n';
             }
-            
         }
-        // clearAll
-        else if (opcao == "clearAll")
+        // eraseAll
+        else if (opcao == "eraseAll")
         {
             try
             {
                 matrizes.clear();
+                cout << "The vector of matrices has been erased" << endl;
             }
             catch (invalid_argument e)
             {
@@ -322,7 +350,8 @@ int main()
             cout << "exit............................close the program" << endl;
             cout << "create i j......................create a new matrix with m rows and n columns" << endl;
             cout << "createCopy i....................create copy of a matrix i of the vector of matrices" << endl;
-            cout << "read 'm'........................read a sparse matrix from the file with name 'm.txt'" << endl;
+            cout << "read m..........................read a sparse matrix from the file with name m.txt" << endl;
+            cout << "readC i j.......................create a sparse matrix with i rows and j columns" << endl;
             cout << "show i..........................print the matrix i in the terminal" << endl;
             cout << "showidx.........................show all the indexes of the matrices" << endl;
             cout << "get m i j.......................show the value of cell(c,j) in the matrix m" << endl;

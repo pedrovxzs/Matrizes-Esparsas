@@ -10,7 +10,7 @@ struct Node
     double valor;
 
     // Construtor
-    Node(Node* direita, Node* abaixo, int linha, int coluna, int valor) {
+    Node(Node* direita, Node* abaixo, int linha, int coluna, double valor) {
         this->direita = direita;
         this->abaixo = abaixo;
         this->linha = linha;

@@ -1,6 +1,7 @@
 #include "MatrizEsparsas.h"
 #include <iostream>
 #include <stdexcept>
+#include <iomanip>
 
 MatrizEsparsas::MatrizEsparsas()
 {
@@ -205,7 +206,6 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
             // Nageva até o nó anterior do nó há ser inserido
             while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
                 colunaAtual = colunaAtual->abaixo;
-
             aux->direita = linhaAtual->direita;
             aux->abaixo = colunaAtual->abaixo;
             linhaAtual->direita = aux;
