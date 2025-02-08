@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <iomanip>
-
+// Promete criar uma Matriz Esparsa vazia 
 MatrizEsparsas::MatrizEsparsas()
 {
     // Primeiro nó
@@ -13,6 +13,7 @@ MatrizEsparsas::MatrizEsparsas()
     colunas = 0;
 }
 
+// Recebe uma matriz constante por referência, e promete criar uma cópia dela
 MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas &matriz)
     : MatrizEsparsas()
 {
@@ -34,6 +35,7 @@ MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas &matriz)
     }
 }
 
+// Promete criar linhas+colunas nó sentinelas
 void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
 {
     if (linhas > 0 && colunas > 0 && linhas <= 30000 && colunas <= 30000)
@@ -68,6 +70,7 @@ void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
     }
 }
 
+// Promete apagar todos os nós da matriz
 void MatrizEsparsas::clear()
 {
     Node *linhaAtual = head->abaixo;
@@ -89,6 +92,7 @@ void MatrizEsparsas::clear()
     // head->direita = head;
 }
 
+// Promete apagar todos os nós incluindo os sentinelas da matriz
 void MatrizEsparsas::clearAll()
 {
     Node *linhaAtual = head->abaixo;
@@ -110,6 +114,7 @@ void MatrizEsparsas::clearAll()
     head->direita = head;
 }
 
+// Promete printar a matriz
 void MatrizEsparsas::print()
 {
     Node *linhaAtual = head->abaixo;
@@ -133,16 +138,21 @@ void MatrizEsparsas::print()
     }
 }
 // Author: Willgner S. Ferreira, 567152
+// Recebe a linha e a coluna, e promete retornar o valor do nó nessas coordenadas
 double MatrizEsparsas::get(int linha, int coluna)
 {
+    //Confere se os valores de linha e coluna são válidos
     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
     {
         Node *linhaAtual = head->abaixo;
         Node *colunaAtual = linhaAtual->direita;
+        // Navega pela a matriz indo sempre para a linha abaixo até chegar no ponto inicial
         while (linhaAtual->linha > 0)
         {
+            // Navega pela a matriz indo sempre para a coluna a direita até chegar no ponto inicial
             while (colunaAtual->coluna > 0)
             {
+                // Confere se já chegou ao nó desejado
                 if (colunaAtual->coluna == coluna && colunaAtual->linha == linha)
                 {
                     return colunaAtual->valor;
@@ -158,15 +168,18 @@ double MatrizEsparsas::get(int linha, int coluna)
         throw std::out_of_range("Invalid coordinates");
 }
 // Author: Willgner S. Ferreira, 567152
+// Promete printar todos os nós sentinelas de uma matriz;
 void MatrizEsparsas::printSentinelas()
 {
     Node *linhaSentinela = head->abaixo;
     Node *colunaSentinela = head->direita;
+    // Navega por todos os sentinelas de linha
     while (linhaSentinela->linha > 0)
     {
         std::cout << "Linha Sentinela Atual: " << linhaSentinela->linha << std::endl;
         linhaSentinela = linhaSentinela->abaixo;
     }
+    // Navega por todos os sentinelas de coluna
     while (colunaSentinela->coluna > 0)
     {
         std::cout << "Coluna Sentinela Atual: " << colunaSentinela->coluna << std::endl;
@@ -174,28 +187,33 @@ void MatrizEsparsas::printSentinelas()
     }
 }
 // Author: Willgner S. Ferreira, 567152
+// Recebe um int linha, int coluna e double valor, 
+// Promete inserir um valor, no nó das coordenadas(linha, coluna)
 void MatrizEsparsas::insert(int linha, int coluna, double valor)
 {
+    // Confere se o valor de linha e coluna são válidos
     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
     {
 
-        // Cria-se sentinelas auxiliares e nó auxiliar a ser inserido
+        // Cria-se um ponteiro auxiliar para navegar pelas linhas da matriz
         Node *linhaAtual = head->abaixo;
 
         // Navega até a linha do nó a ser inserido
         while (linhaAtual->linha > 0 && linhaAtual->linha != linha)
             linhaAtual = linhaAtual->abaixo;
 
-        // Navega até o nó anterior do nó há ser inserido;
+        // Navega até o nó a esquerda do nó há ser inserido;
         while (linhaAtual->direita->coluna > 0 && linhaAtual->direita->coluna < coluna)
             linhaAtual = linhaAtual->direita;
 
+        // Confere se o nó a direita existe, Se sim subistitui o valor dele
         if (linhaAtual->direita->valor != 0 && linhaAtual->direita->coluna == coluna)
         {
             linhaAtual->direita->valor = valor;
         }
         else
         {
+            // Cria-se o sentinela auxiliar para navegar pelas colunas e o nó a ser inserido
             Node *colunaAtual = head->direita;
             Node *aux = new Node(nullptr, nullptr, linha, coluna, valor);
 
@@ -203,9 +221,10 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
             while (colunaAtual->coluna > 0 && colunaAtual->coluna != coluna)
                 colunaAtual = colunaAtual->direita;
 
-            // Nageva até o nó anterior do nó há ser inserido
+            // Nageva até o nó acima do nó há ser inserido
             while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
                 colunaAtual = colunaAtual->abaixo;
+            // Modifica os valores dos ponteiros
             aux->direita = linhaAtual->direita;
             aux->abaixo = colunaAtual->abaixo;
             linhaAtual->direita = aux;
@@ -215,17 +234,17 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
     else
         throw std::out_of_range("Invalid coordinates");
 }
-
+// Retorna a quantidade de linhas
 int MatrizEsparsas::getLinhas()
 {
     return linhas;
 }
-
+// Retorna a quantidade de colunas
 int MatrizEsparsas::getColunas()
 {
     return colunas;
 }
-
+// Operador de atribuição, cópia todos os valores da matriz constante passada por referência
 MatrizEsparsas &MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
 {
     if (this == &matriz)
@@ -251,7 +270,7 @@ MatrizEsparsas &MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
     }
     return *this;
 }
-
+// Destrutor da matriz  
 MatrizEsparsas::~MatrizEsparsas()
 {
     // Apagar os nós e sentinelas da matriz
