@@ -83,13 +83,10 @@ void MatrizEsparsas::clear()
             colunaAtual = colunaAtual->direita;
             delete temp;
         }
-        // Node *temp = linhaAtual;
+     
+        linhaAtual->direita = linhaAtual;
         linhaAtual = linhaAtual->abaixo;
-        // delete temp;
     }
-
-    // head->abaixo = head;
-    // head->direita = head;
 }
 
 // Promete apagar todos os nós incluindo os sentinelas da matriz
@@ -125,12 +122,12 @@ void MatrizEsparsas::print()
         {
             if (colunaAtual->coluna == j)
             {
-                std::cout << colunaAtual->valor << "  ";
+                std::cout << std::setw(8) <<colunaAtual->valor;
                 colunaAtual = colunaAtual->direita;
             }
             else
             {
-                std::cout << "0  ";
+                std::cout << std::setw(8) << "0";
             }
         }
         std::cout << std::endl;
