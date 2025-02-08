@@ -147,7 +147,7 @@ int main()
         else if (opcao == "create")
         {
             int i, j;
-            if (buffer >> i >> j)
+            if (buffer >> i >> j && i > 0 && j > 0 && i <= 30000 && j <= 30000)
             {
                 MatrizEsparsas m;
                 try
@@ -170,7 +170,7 @@ int main()
         else if (opcao == "createCopy")
         {
             int i;
-            if (buffer >> i)
+            if (buffer >> i && i < matrizes.size())
             {
                 try
                 {
@@ -191,9 +191,11 @@ int main()
         else if (opcao == "read")
         {
             string nome;
+            ifstream arquivo;
             MatrizEsparsas m;
-
-            if (buffer >> nome)
+            buffer >> nome;
+            arquivo.open(nome+".txt");
+            if (arquivo.is_open())
             {
                 try
                 {
@@ -216,7 +218,7 @@ int main()
         {
             int i, j;
             MatrizEsparsas m;
-            if (buffer >> i >> j)
+            if (buffer >> i >> j && i > 0 && j > 0 && i <= 30000 && j <= 30000)
             {
 
                 try
@@ -240,7 +242,7 @@ int main()
         {
             int d, i, j;
             double x;
-            if (buffer >> d >> i >> j >> x)
+            if (buffer >> d >> i >> j >> x && i > 0 && j > 0 && i <= 30000 && j <= 30000 && d < matrizes.size())
             {
                 try
                 {
@@ -261,7 +263,7 @@ int main()
         else if (opcao == "get")
         {
             int d, i, j;
-            if (buffer >> d >> i >> j)
+            if (buffer >> d >> i >> j && i > 0 && j > 0 && i <= 30000 && j <= 30000 && d < matrizes.size())
             {
 
                 try
@@ -282,7 +284,7 @@ int main()
         else if (opcao == "show")
         {
             int d;
-            if (buffer >> d)
+            if (buffer >> d && d < matrizes.size())
             {
                 try
                 {
@@ -316,7 +318,7 @@ int main()
         else if (opcao == "sum")
         {
             int m, n;
-            if (buffer >> m >> n)
+            if (buffer >> m >> n && m < matrizes.size() && n < matrizes.size())
             {
                 try
                 {
@@ -336,7 +338,7 @@ int main()
         else if (opcao == "multiply")
         {
             int m, n;
-            if (buffer >> m >> n)
+            if (buffer >> m >> n && m < matrizes.size() && n < matrizes.size())
             {
                 try
                 {
@@ -356,7 +358,7 @@ int main()
         else if (opcao == "clear")
         {
             int m;
-            if (buffer >> m)
+            if (buffer >> m && m < matrizes.size())
             {
                 try
                 {
@@ -377,7 +379,7 @@ int main()
         else if (opcao == "erase")
         {
             int m;
-            if (buffer >> m)
+            if (buffer >> m && m < matrizes.size())
             {
                 try
                 {
