@@ -30,7 +30,7 @@ void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrice
                 matrices.push_back(c);
                 op = "N";
             }
-            else
+            else if(op != "N")
             {
                 cout << "Choose a valid option" << endl;
             }
@@ -43,7 +43,7 @@ void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrice
     }
 }
 // Author: Willgner S. Ferreira, 567152
-void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> matrices)
+void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrices)
 {
     if (a.getColunas() == b.getLinhas())
     {
@@ -75,11 +75,12 @@ void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> ma
                 matrices.push_back(c);
                 op = "N";
             }
-            else
+            else if(op != "N")
             {
                 cout << "Choose a valid option" << endl;
             }
         }
+        cin.ignore(10000, '\n');
     }
     else
     {
@@ -306,6 +307,8 @@ int main()
         {
             if (matrizes.size() > 0)
                 cout << "Matrices indexes:";
+            else
+                cout << "No matrix has been created yet" << endl;
             for (int i = 0; i < matrizes.size(); i++)
             {
                 if (i > 0)
