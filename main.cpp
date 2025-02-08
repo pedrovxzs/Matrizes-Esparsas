@@ -30,7 +30,7 @@ void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrice
                 matrices.push_back(c);
                 op = "N";
             }
-            else
+            else if(op != "N")
             {
                 cout << "Choose a valid option" << endl;
             }
@@ -75,7 +75,7 @@ void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &m
                 matrices.push_back(c);
                 op = "N";
             }
-            else
+            else if(op != "N")
             {
                 cout << "Choose a valid option" << endl;
             }
