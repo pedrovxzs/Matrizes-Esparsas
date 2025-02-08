@@ -13,8 +13,8 @@ MatrizEsparsas::MatrizEsparsas()
     colunas = 0;
 }
 
-MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas& matriz)
-: MatrizEsparsas()
+MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas &matriz)
+    : MatrizEsparsas()
 {
     this->criarSentinelas(matriz.linhas, matriz.colunas);
     Node *linhaAtual = matriz.head->abaixo;
@@ -22,7 +22,7 @@ MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas& matriz)
     while (linhaAtual->linha > 0)
     {
         while (colunaAtual->coluna > 0)
-        {   
+        {
             if (colunaAtual->valor)
             {
                 this->insert(linhaAtual->linha, colunaAtual->coluna, colunaAtual->valor);
@@ -132,7 +132,7 @@ void MatrizEsparsas::print()
         linhaAtual = linhaAtual->abaixo;
     }
 }
-
+// Author: Willgner S. Ferreira, 567152
 double MatrizEsparsas::get(int linha, int coluna)
 {
     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
@@ -157,7 +157,7 @@ double MatrizEsparsas::get(int linha, int coluna)
     else
         throw std::out_of_range("Invalid coordinates");
 }
-
+// Author: Willgner S. Ferreira, 567152
 void MatrizEsparsas::printSentinelas()
 {
     Node *linhaSentinela = head->abaixo;
@@ -173,7 +173,7 @@ void MatrizEsparsas::printSentinelas()
         colunaSentinela = colunaSentinela->direita;
     }
 }
-
+// Author: Willgner S. Ferreira, 567152
 void MatrizEsparsas::insert(int linha, int coluna, double valor)
 {
     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
@@ -226,7 +226,7 @@ int MatrizEsparsas::getColunas()
     return colunas;
 }
 
-MatrizEsparsas& MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
+MatrizEsparsas &MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
 {
     if (this == &matriz)
     {
@@ -257,7 +257,7 @@ MatrizEsparsas::~MatrizEsparsas()
     // Apagar os nós e sentinelas da matriz
     clear();
 
-     Node *linhaAtual = head->abaixo;
+    Node *linhaAtual = head->abaixo;
     while (linhaAtual != head)
     {
         Node *temp = linhaAtual;
@@ -276,5 +276,5 @@ MatrizEsparsas::~MatrizEsparsas()
     // Apagar o nó head
     delete head;
 
-    //std::cout << "Matriz Apagada" << std::endl;
+    // std::cout << "Matriz Apagada" << std::endl;
 }

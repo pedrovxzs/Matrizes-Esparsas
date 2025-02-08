@@ -6,7 +6,7 @@
 #include <sstream>
 
 using namespace std;
-
+// Author: Willgner S. Ferreira, 567152
 void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrices)
 {
     if (a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas())
@@ -35,14 +35,14 @@ void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrice
                 cout << "Choose a valid option" << endl;
             }
         }
-        cin.clear();
+        cin.ignore(10000, '\n');
     }
     else
     {
         cout << "It wasn't possible sum" << endl;
     }
 }
-
+// Author: Willgner S. Ferreira, 567152
 void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> matrices)
 {
     if (a.getColunas() == b.getLinhas())
@@ -123,7 +123,7 @@ void lerMatriz(MatrizEsparsas &m, int linha, int coluna)
         m.insert(linha, coluna, stod(data));
     }
 }
-
+// Author: Willgner S. Ferreira, 567152
 int main()
 {
     vector<MatrizEsparsas> matrizes;
@@ -132,7 +132,6 @@ int main()
     while (true)
     {
         string comando, opcao;
-        cin.clear();
         getline(cin, comando);
         stringstream buffer{comando};
         buffer >> opcao;
@@ -148,49 +147,68 @@ int main()
         else if (opcao == "create")
         {
             int i, j;
-            buffer >> i >> j;
-            MatrizEsparsas m;
-            try
+            if (buffer >> i >> j)
             {
-                m.criarSentinelas(i, j);
-                matrizes.push_back(m);
-                cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+                MatrizEsparsas m;
+                try
+                {
+                    m.criarSentinelas(i, j);
+                    matrizes.push_back(m);
+                    cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter valid numbers" << endl;
             }
         }
         // createCopy i
         else if (opcao == "createCopy")
         {
             int i;
-            buffer >> i;
-            try
+            if (buffer >> i)
             {
-                matrizes.push_back(matrizes.at(i));
-                cout << "The matrix was copied successfully, his index is: " << matrizes.size() - 1 << endl;
+                try
+                {
+                    matrizes.push_back(matrizes.at(i));
+                    cout << "The matrix was copied successfully, his index is: " << matrizes.size() - 1 << endl;
+                }
+                catch (out_of_range e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (out_of_range e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter a valid index" << endl;
             }
         }
-        // read "mtrx.txt"
+        // read mtrx
         else if (opcao == "read")
         {
             string nome;
             MatrizEsparsas m;
-            buffer >> nome;
-            try
+
+            if (buffer >> nome)
             {
-                lerMatriz(m, nome);
-                matrizes.push_back(m);
-                cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+                try
+                {
+                    lerMatriz(m, nome);
+                    matrizes.push_back(m);
+                    cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter a file name" << endl;
             }
         }
         // readC i j
@@ -198,64 +216,87 @@ int main()
         {
             int i, j;
             MatrizEsparsas m;
-            buffer >> i >> j;
-            try
+            if (buffer >> i >> j)
             {
-                lerMatriz(m, i, j);
-                matrizes.push_back(m);
-                cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+
+                try
+                {
+                    lerMatriz(m, i, j);
+                    matrizes.push_back(m);
+                    cout << "The matrix was created successfully, his index is: " << matrizes.size() - 1 << endl;
+                }
+                catch (const std::invalid_argument e)
+                {
+                    cerr << e.what() << '\n';
+                }
             }
-            catch (const std::invalid_argument e)
+            else
             {
-                cerr << e.what() << '\n';
+                cout << "Please enter valid numbers" << endl;
             }
         }
         // update m i j value
         else if (opcao == "update")
         {
-
             int d, i, j;
             double x;
-            buffer >> d >> i >> j >> x;
-            try
+            if (buffer >> d >> i >> j >> x)
             {
-                matrizes.at(d).insert(i, j, x);
-                cout << "The value was updated successfully" << endl;
+                try
+                {
+                    matrizes.at(d).insert(i, j, x);
+                    cout << "The value was updated successfully" << endl;
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter valid numbers" << endl;
             }
         }
         // get m i j
         else if (opcao == "get")
         {
-
             int d, i, j;
-            buffer >> d >> i >> j;
-            try
+            if (buffer >> d >> i >> j)
             {
-                cout << "The value is: " << matrizes.at(d).get(i, j) << endl;
+
+                try
+                {
+                    cout << "The value is: " << matrizes.at(d).get(i, j) << endl;
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter valid numbers" << endl;
             }
         }
         // show m
         else if (opcao == "show")
         {
-
             int d;
-            buffer >> d;
-            try
+            if (buffer >> d)
             {
-                cout << "Showing the matrix[" << d << "]" << endl;
-                matrizes.at(d).print();
+                try
+                {
+                    cout << "Showing the matrix[" << d << "]" << endl;
+                    matrizes.at(d).print();
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter a valid index" << endl;
             }
         }
         // showidx
@@ -274,60 +315,83 @@ int main()
         // sum m n
         else if (opcao == "sum")
         {
-
             int m, n;
-            buffer >> m >> n;
-            try
+            if (buffer >> m >> n)
             {
-                somar(matrizes.at(m), matrizes.at(n), matrizes);
+                try
+                {
+                    somar(matrizes.at(m), matrizes.at(n), matrizes);
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter valid indexes" << endl;
             }
         }
         // multiply m n
         else if (opcao == "multiply")
         {
             int m, n;
-            buffer >> m >> n;
-            try
+            if (buffer >> m >> n)
             {
-                multiplicar(matrizes.at(m), matrizes.at(n), matrizes);
+                try
+                {
+                    multiplicar(matrizes.at(m), matrizes.at(n), matrizes);
+                }
+                catch (std::invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (std::invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter valid indexes" << endl;
             }
         }
         // clear m
         else if (opcao == "clear")
         {
             int m;
-            buffer >> m;
-            try
+            if (buffer >> m)
             {
-                matrizes.at(m).clear();
-                cout << "The matrix [" << m << "] has been cleared" << endl;    
+                try
+                {
+                    matrizes.at(m).clear();
+                    cout << "The matrix [" << m << "] has been cleared" << endl;
+                }
+                catch (invalid_argument e)
+                {
+                    cerr << e.what() << endl;
+                }
             }
-            catch (invalid_argument e)
+            else
             {
-                cerr << e.what() << endl;
+                cout << "Please enter a valid index" << endl;
             }
         }
         // erase m
         else if (opcao == "erase")
         {
             int m;
-            buffer >> m;
-            try
+            if (buffer >> m)
             {
-                matrizes.erase(matrizes.begin() + m);
-                cout << "he matrix [" << m << "] has been erased" << endl;
+                try
+                {
+                    matrizes.erase(matrizes.begin() + m);
+                    cout << "he matrix [" << m << "] has been erased" << endl;
+                }
+                catch (invalid_argument e)
+                {
+                    cerr << e.what() << '\n';
+                }
             }
-            catch (invalid_argument e)
+            else
             {
-                cerr << e.what() << '\n';
+                cout << "Please enter a valid index" << endl;
             }
         }
         // eraseAll
