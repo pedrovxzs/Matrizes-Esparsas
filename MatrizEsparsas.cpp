@@ -2,7 +2,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <iomanip>
-// Promete criar uma Matriz Esparsa vazia 
+
+// Author: Pedro Vittor M. S, 570598
+// Promete criar uma Matriz Esparsa vazia
 MatrizEsparsas::MatrizEsparsas()
 {
     // Primeiro nó
@@ -13,6 +15,7 @@ MatrizEsparsas::MatrizEsparsas()
     colunas = 0;
 }
 
+// Author: Pedro Vittor M. S, 570598
 // Recebe uma matriz constante por referência, e promete criar uma cópia dela
 MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas &matriz)
     : MatrizEsparsas()
@@ -35,6 +38,7 @@ MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas &matriz)
     }
 }
 
+// Author: Pedro Vittor M. S, 570598
 // Promete criar linhas+colunas nó sentinelas
 void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
 {
@@ -70,6 +74,7 @@ void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
     }
 }
 
+// Author: Pedro Vittor M. S, 570598
 // Promete apagar todos os nós da matriz
 void MatrizEsparsas::clear()
 {
@@ -83,12 +88,13 @@ void MatrizEsparsas::clear()
             colunaAtual = colunaAtual->direita;
             delete temp;
         }
-     
+
         linhaAtual->direita = linhaAtual;
         linhaAtual = linhaAtual->abaixo;
     }
 }
 
+// Author: Pedro Vittor M. S, 570598
 // Promete apagar todos os nós incluindo os sentinelas da matriz
 void MatrizEsparsas::clearAll()
 {
@@ -111,6 +117,7 @@ void MatrizEsparsas::clearAll()
     head->direita = head;
 }
 
+// Author: Pedro Vittor M. S, 570598
 // Promete printar a matriz
 void MatrizEsparsas::print()
 {
@@ -122,7 +129,7 @@ void MatrizEsparsas::print()
         {
             if (colunaAtual->coluna == j)
             {
-                std::cout << std::setw(8) <<colunaAtual->valor;
+                std::cout << std::setw(8) << colunaAtual->valor;
                 colunaAtual = colunaAtual->direita;
             }
             else
@@ -138,7 +145,7 @@ void MatrizEsparsas::print()
 // Recebe a linha e a coluna, e promete retornar o valor do nó nessas coordenadas
 double MatrizEsparsas::get(int linha, int coluna)
 {
-    //Confere se os valores de linha e coluna são válidos
+    // Confere se os valores de linha e coluna são válidos
     if (coluna <= colunas && linha <= linhas && linha > 0 && coluna > 0)
     {
         Node *linhaAtual = head->abaixo;
@@ -184,7 +191,7 @@ void MatrizEsparsas::printSentinelas()
     }
 }
 // Author: Willgner S. Ferreira, 567152
-// Recebe um int linha, int coluna e double valor, 
+// Recebe um int linha, int coluna e double valor,
 // Promete inserir um valor, no nó das coordenadas(linha, coluna)
 void MatrizEsparsas::insert(int linha, int coluna, double valor)
 {
@@ -231,16 +238,22 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
     else
         throw std::out_of_range("Invalid coordinates");
 }
+
+// Author: Pedro Vittor M. S, 570598
 // Retorna a quantidade de linhas
 int MatrizEsparsas::getLinhas()
 {
     return linhas;
 }
+
+// Author: Pedro Vittor M. S, 570598
 // Retorna a quantidade de colunas
 int MatrizEsparsas::getColunas()
 {
     return colunas;
 }
+
+// Author: Pedro Vittor M. S, 570598
 // Operador de atribuição, cópia todos os valores da matriz constante passada por referência
 MatrizEsparsas &MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
 {
@@ -267,7 +280,9 @@ MatrizEsparsas &MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
     }
     return *this;
 }
-// Destrutor da matriz  
+
+// Author: Pedro Vittor M. S, 570598
+// Destrutor da matriz
 MatrizEsparsas::~MatrizEsparsas()
 {
     // Apagar os nós e sentinelas da matriz

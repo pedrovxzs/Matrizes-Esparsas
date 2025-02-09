@@ -30,7 +30,7 @@ void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrice
                 matrices.push_back(c);
                 op = "N";
             }
-            else if(op != "N")
+            else if (op != "N")
             {
                 cout << "Choose a valid option" << endl;
             }
@@ -75,7 +75,7 @@ void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &m
                 matrices.push_back(c);
                 op = "N";
             }
-            else if(op != "N")
+            else if (op != "N")
             {
                 cout << "Choose a valid option" << endl;
             }
@@ -88,6 +88,7 @@ void multiplicar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &m
     }
 }
 
+// Author: Pedro Vittor M. S, 570598
 void lerMatriz(MatrizEsparsas &m, string matriz)
 {
     int linha, coluna;
@@ -111,6 +112,7 @@ void lerMatriz(MatrizEsparsas &m, string matriz)
     txtFile.close();
 }
 
+// Author: Pedro Vittor M. S, 570598
 void lerMatriz(MatrizEsparsas &m, int linha, int coluna)
 {
     m.criarSentinelas(linha, coluna);
@@ -195,7 +197,7 @@ int main()
             ifstream arquivo;
             MatrizEsparsas m;
             buffer >> nome;
-            arquivo.open(nome+".txt");
+            arquivo.open(nome + ".txt");
             if (arquivo.is_open())
             {
                 try
