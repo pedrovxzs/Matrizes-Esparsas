@@ -7,14 +7,15 @@
 
 using namespace std;
 // Author: Willgner S. Ferreira, 567152
+// 
 void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrices)
 {
     if (a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas())
     {
         MatrizEsparsas c;
-        c.criarSentinelas(a.getLinhas(), a.getColunas());
-        for (int i = 1; i <= c.getLinhas(); i++)
-            for (int j = 1; j <= c.getColunas(); j++)
+        c.criarSentinelas(a.getLinhas(), a.getColunas()); // criarSentinelas O(a+b) + O(a) + O(b) = O(a+b)
+        for (int i = 1; i <= c.getLinhas(); i++) // O(n) Analise do pior caso do for
+            for (int j = 1; j <= c.getColunas(); j++) // O(n)
                 c.insert(i, j, a.get(i, j) + b.get(i, j));
 
         cout << "This is the sum of the matrices:" << endl;

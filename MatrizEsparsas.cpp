@@ -40,6 +40,7 @@ MatrizEsparsas::MatrizEsparsas(const MatrizEsparsas &matriz)
 
 // Author: Pedro Vittor M. S, 570598
 // Promete criar linhas+colunas nó sentinelas
+
 void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
 {
     if (linhas > 0 && colunas > 0 && linhas <= 30000 && colunas <= 30000)
@@ -49,7 +50,7 @@ void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
 
         Node *auxLinha = head;
 
-        for (int i = 1; i <= linhas; i++)
+        for (int i = 1; i <= linhas; i++) // O(a)
         {
             Node *novo = new Node(nullptr, auxLinha, i, 0, 0);
             novo->direita = novo;
@@ -59,7 +60,7 @@ void MatrizEsparsas::criarSentinelas(int linhas, int colunas)
         auxLinha->abaixo = head;
 
         Node *auxColuna = head;
-        for (int j = 1; j <= colunas; j++)
+        for (int j = 1; j <= colunas; j++) // O(b)
         {
             Node *novo = new Node(auxColuna, nullptr, 0, j, 0);
             novo->abaixo = novo;
@@ -143,6 +144,8 @@ void MatrizEsparsas::print()
 }
 // Author: Willgner S. Ferreira, 567152
 // Recebe a linha e a coluna, e promete retornar o valor do nó nessas coordenadas
+// No pior caso, o algoritmo percorre todas as linha e todas as coluna da matriz até encontrar o nó desejado dentro de um loop aninhado,
+// logo a complexidade é O(n^2)
 double MatrizEsparsas::get(int linha, int coluna)
 {
     // Confere se os valores de linha e coluna são válidos
@@ -150,10 +153,10 @@ double MatrizEsparsas::get(int linha, int coluna)
     {
         Node *linhaAtual = head->abaixo;
         Node *colunaAtual = linhaAtual->direita;
-        // Navega pela a matriz indo sempre para a linha abaixo até chegar no ponto inicial
+        // Navega pela a matriz indo sempre para a linha abaixo até chegar no ponto inicial // O(n)
         while (linhaAtual->linha > 0)
         {
-            // Navega pela a matriz indo sempre para a coluna a direita até chegar no ponto inicial
+            // Navega pela a matriz indo sempre para a coluna a direita até chegar no ponto inicial // O(n)
             while (colunaAtual->coluna > 0)
             {
                 // Confere se já chegou ao nó desejado
@@ -190,9 +193,15 @@ void MatrizEsparsas::printSentinelas()
         colunaSentinela = colunaSentinela->direita;
     }
 }
+
 // Author: Willgner S. Ferreira, 567152
 // Recebe um int linha, int coluna e double valor,
 // Promete inserir um valor, no nó das coordenadas(linha, coluna)
+// No pior caso, o algoritmo percorre
+// todas as linha e todas as coluna da matriz até encontrar
+// o nó a ser inserido, logo a complexidade é O(a+b)
+// Analise de Complexidade: O(a+b)
+
 void MatrizEsparsas::insert(int linha, int coluna, double valor)
 {
     // Confere se o valor de linha e coluna são válidos
@@ -202,11 +211,11 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
         // Cria-se um ponteiro auxiliar para navegar pelas linhas da matriz
         Node *linhaAtual = head->abaixo;
 
-        // Navega até a linha do nó a ser inserido
-        while (linhaAtual->linha > 0 && linhaAtual->linha != linha)
+        // Navega até a linha do nó a ser inserido // O(a)
+        while (linhaAtual->linha > 0 && linhaAtual->linha != linha) 
             linhaAtual = linhaAtual->abaixo;
 
-        // Navega até o nó a esquerda do nó há ser inserido;
+        // Navega até o nó a esquerda do nó há ser inserido; // O(a)
         while (linhaAtual->direita->coluna > 0 && linhaAtual->direita->coluna < coluna)
             linhaAtual = linhaAtual->direita;
 
@@ -221,11 +230,11 @@ void MatrizEsparsas::insert(int linha, int coluna, double valor)
             Node *colunaAtual = head->direita;
             Node *aux = new Node(nullptr, nullptr, linha, coluna, valor);
 
-            // Navega até a coluna do nó a ser inserido
+            // Navega até a coluna do nó a ser inserido // O(b)
             while (colunaAtual->coluna > 0 && colunaAtual->coluna != coluna)
                 colunaAtual = colunaAtual->direita;
 
-            // Nageva até o nó acima do nó há ser inserido
+            // Nageva até o nó acima do nó há ser inserido // O(b)
             while (colunaAtual->abaixo->linha > 0 && colunaAtual->abaixo->linha < linha)
                 colunaAtual = colunaAtual->abaixo;
             // Modifica os valores dos ponteiros
