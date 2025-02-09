@@ -135,7 +135,7 @@ void MatrizEsparsas::print()
             }
             else
             {
-                std::cout << std::setw(8) << "0";
+                std::cout << std::setw(8) << "0.0";
             }
         }
         std::cout << std::endl;
@@ -200,8 +200,7 @@ void MatrizEsparsas::printSentinelas()
 // No pior caso, o algoritmo percorre
 // todas as linha e todas as coluna da matriz até encontrar
 // o nó a ser inserido, logo a complexidade é O(a+b)
-// Analise de Complexidade: O(a+b)
-
+// Analise de Complexidade: O(a+b) = O(n)
 void MatrizEsparsas::insert(int linha, int coluna, double valor)
 {
     // Confere se o valor de linha e coluna são válidos
