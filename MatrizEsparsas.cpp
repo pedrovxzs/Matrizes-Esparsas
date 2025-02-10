@@ -295,24 +295,8 @@ MatrizEsparsas &MatrizEsparsas::operator=(const MatrizEsparsas &matriz)
 MatrizEsparsas::~MatrizEsparsas()
 {
     // Apagar os nós e sentinelas da matriz
-    clear();
+    clearAll();
 
-    Node *linhaAtual = head->abaixo;
-    while (linhaAtual != head)
-    {
-        Node *temp = linhaAtual;
-        linhaAtual = linhaAtual->abaixo;
-        delete temp;
-    }
-
-    // Apagar os sentinelas colunas
-    Node *colunaAtual = head->direita;
-    while (colunaAtual != head)
-    {
-        Node *temp = colunaAtual;
-        colunaAtual = colunaAtual->direita;
-        delete temp;
-    }
     // Apagar o nó head
     delete head;
 
