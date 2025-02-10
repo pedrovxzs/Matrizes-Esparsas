@@ -7,16 +7,20 @@
 
 using namespace std;
 // Author: Willgner S. Ferreira, 567152
-// 
+// No pior caso o algoritmo irá ter que pecorrer os dois for com complexidade de O(n^2)
+// Onde terá interação com a função Insert O(n) e Get O(n^2)
+// Ocorrerá a operação O(n^2) * (O(n) + O(n^2)), que resultara na complexidade O(n^3) + O(n^4), logo a complexidade geral
+// da função será de O(n^4).
 void somar(MatrizEsparsas &a, MatrizEsparsas &b, vector<MatrizEsparsas> &matrices)
 {
     if (a.getLinhas() == b.getLinhas() && a.getColunas() == b.getColunas())
     {
         MatrizEsparsas c;
-        c.criarSentinelas(a.getLinhas(), a.getColunas()); // criarSentinelas O(a+b) + O(a) + O(b) = O(a+b)
-        for (int i = 1; i <= c.getLinhas(); i++) // O(n) Analise do pior caso do for
-            for (int j = 1; j <= c.getColunas(); j++) // O(n)
-                c.insert(i, j, a.get(i, j) + b.get(i, j));
+        c.criarSentinelas(a.getLinhas(), a.getColunas()); // criarSentinelas O(a+b) + O(1) + O(1) = O(a+b) // Complexidade O(n)
+        
+        for (int i = 1; i <= c.getLinhas(); i++) //  Analise do pior caso: O for irá precisar pecorrer todas as linhas da matriz // O(n)
+            for (int j = 1; j <= c.getColunas(); j++) // Analise do pior caso: O for irá precisar todas as colunas da matriz // O(n)
+                c.insert(i, j, a.get(i, j) + b.get(i, j)); // Insert: O(n) // Get: O(n^2)
 
         cout << "This is the sum of the matrices:" << endl;
         c.print();
